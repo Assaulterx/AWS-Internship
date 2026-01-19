@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Beginner's Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #0d1b2a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 0, 200, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(20, 30, 50, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3), 
+                        0 0 100px rgba(255, 0, 200, 0.2),
+                        inset 0 0 50px rgba(0, 255, 255, 0.05);
+            overflow: hidden;
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(255, 0, 200, 0.1) 100%);
+            color: #00ffff;
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+            animation: neon-float 20s ease-in-out infinite;
+        }
+
+        header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px rgba(0, 255, 255, 0.5);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 2px;
+            animation: neon-glow 3s ease-in-out infinite;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: rgba(10, 14, 39, 0.6);
+            padding: 20px;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        nav button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(255, 0, 200, 0.1) 100%);
+            color: #00ffff;
+            border: 2px solid rgba(0, 255, 255, 0.4);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        nav button:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2) 0%, rgba(255, 0, 200, 0.2) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(255, 0, 200, 0.3);
+            border-color: rgba(0, 255, 255, 0.7);
+        }
+
+        nav button:hover::before {
+            left: 100%;
+        }
+
+        nav button.active {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.3) 0%, rgba(255, 0, 200, 0.3) 100%);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.6), 0 0 50px rgba(255, 0, 200, 0.4), inset 0 0 20px rgba(0, 255, 255, 0.2);
+            border-color: rgba(0, 255, 255, 0.8);
+        }
+
+        .content {
+            padding: 50px;
+            min-height: 500px;
+            background: rgba(10, 20, 40, 0.5);
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes neon-glow {
+            0%, 100% {
+                text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px rgba(0, 255, 255, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff, 0 0 50px rgba(0, 255, 255, 0.8);
+            }
+        }
+
+        @keyframes neon-float {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(20px, 20px);
+            }
+        }
+
+        h2 {
+            color: #00ffff;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+            border-bottom: 3px solid rgba(0, 255, 255, 0.5);
+            padding-bottom: 15px;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px rgba(0, 255, 255, 0.5);
+            letter-spacing: 2px;
+        }
+
+        h3 {
+            color: #00ffaa;
+            margin-top: 30px;
+            margin-bottom: 18px;
+            font-size: 1.5em;
+            text-shadow: 0 0 8px rgba(0, 255, 170, 0.6);
+            letter-spacing: 1px;
+        }
+
+        p {
+            margin-bottom: 18px;
+            line-height: 1.8;
+            color: #c0d0e0;
+            font-size: 1.05em;
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0, 255, 200, 0.1) 0%, rgba(0, 200, 255, 0.1) 100%);
+            border-left: 5px solid #00ffcc;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 200, 0.2), inset 0 0 20px rgba(0, 255, 200, 0.05);
+            border: 2px solid rgba(0, 255, 200, 0.3);
+            position: relative;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 255, 200, 0.1) 0%, transparent 80%);
+            border-radius: 10px;
+            pointer-events: none;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255, 150, 0, 0.1) 0%, rgba(255, 100, 0, 0.1) 100%);
+            border-left: 5px solid #ffaa00;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 150, 0, 0.2), inset 0 0 20px rgba(255, 150, 0, 0.05);
+            border: 2px solid rgba(255, 150, 0, 0.3);
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, rgba(0, 255, 100, 0.1) 0%, rgba(0, 200, 150, 0.1) 100%);
+            border-left: 5px solid #00ff64;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 100, 0.2), inset 0 0 20px rgba(0, 255, 100, 0.05);
+            border: 2px solid rgba(0, 255, 100, 0.3);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.15) 0%, rgba(255, 0, 200, 0.15) 100%);
+            color: #00ffff;
+            border: 2px solid rgba(0, 255, 255, 0.5);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3), inset 0 0 15px rgba(0, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.3) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.3) 0%, rgba(255, 0, 200, 0.3) 100%);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.6), 0 0 50px rgba(255, 0, 200, 0.4);
+            border-color: rgba(0, 255, 255, 0.8);
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, rgba(100, 200, 255, 0.15) 0%, rgba(100, 255, 200, 0.15) 100%);
+            color: #64c8ff;
+            border-color: rgba(100, 200, 255, 0.5);
+            box-shadow: 0 0 15px rgba(100, 200, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, rgba(100, 200, 255, 0.3) 0%, rgba(100, 255, 200, 0.3) 100%);
+            box-shadow: 0 0 25px rgba(100, 200, 255, 0.6), 0 0 50px rgba(100, 255, 200, 0.4);
+            border-color: rgba(100, 200, 255, 0.8);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, rgba(0, 255, 150, 0.15) 0%, rgba(0, 255, 100, 0.15) 100%);
+            color: #00ff96;
+            border-color: rgba(0, 255, 150, 0.5);
+            box-shadow: 0 0 15px rgba(0, 255, 150, 0.3);
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 150, 0.3) 0%, rgba(0, 255, 100, 0.3) 100%);
+            box-shadow: 0 0 25px rgba(0, 255, 150, 0.6), 0 0 50px rgba(0, 255, 100, 0.4);
+            border-color: rgba(0, 255, 150, 0.8);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, rgba(255, 0, 100, 0.15) 0%, rgba(255, 50, 100, 0.15) 100%);
+            color: #ff0064;
+            border-color: rgba(255, 0, 100, 0.5);
+            box-shadow: 0 0 15px rgba(255, 0, 100, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, rgba(255, 0, 100, 0.3) 0%, rgba(255, 50, 100, 0.3) 100%);
+            box-shadow: 0 0 25px rgba(255, 0, 100, 0.6), 0 0 50px rgba(255, 50, 100, 0.4);
+            border-color: rgba(255, 0, 100, 0.8);
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.08) 0%, rgba(255, 0, 200, 0.08) 100%);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            padding: 28px;
+            margin: 20px 0;
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.15), inset 0 0 20px rgba(0, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.12) 0%, rgba(255, 0, 200, 0.12) 100%);
+            box-shadow: 0 0 35px rgba(0, 255, 255, 0.25), inset 0 0 20px rgba(0, 255, 255, 0.1);
+            border-color: rgba(0, 255, 255, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .info-card h4 {
+            color: #00ffff;
+            margin-bottom: 15px;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+            font-size: 1.2em;
+            letter-spacing: 1px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2), inset 0 0 20px rgba(0, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .table th {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2) 0%, rgba(255, 0, 200, 0.2) 100%);
+            color: #00ffff;
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .table td {
+            padding: 14px 15px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+            color: #c0d0e0;
+        }
+
+        .table tr:hover {
+            background: rgba(0, 255, 255, 0.08);
+            box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(15, 25, 55, 0.95) 0%, rgba(20, 30, 60, 0.95) 100%);
+            padding: 35px;
+            border-radius: 15px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3), 0 0 100px rgba(255, 0, 200, 0.2);
+            border: 2px solid rgba(0, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+            padding-bottom: 18px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+            letter-spacing: 1px;
+        }
+
+        .close-btn {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #00ffff;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+        }
+
+        .close-btn:hover {
+            color: #00ffaa;
+            background: rgba(0, 255, 170, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 170, 0.5);
+            border-color: rgba(0, 255, 170, 0.5);
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 14px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, rgba(0, 255, 200, 0.08) 0%, rgba(0, 200, 255, 0.08) 100%);
+            border-left: 4px solid #00ffcc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 200, 0.2);
+            color: #c0d0e0;
+            box-shadow: inset 0 0 10px rgba(0, 255, 200, 0.05);
+        }
+
+        .checklist li:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 200, 0.15) 0%, rgba(0, 200, 255, 0.15) 100%);
+            border-left-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 200, 0.2), inset 0 0 10px rgba(0, 255, 200, 0.1);
+            transform: translateX(5px);
+        }
+
+        .checklist li.completed {
+            background: linear-gradient(135deg, rgba(0, 255, 100, 0.12) 0%, rgba(0, 200, 150, 0.12) 100%);
+            border-left-color: #00ff64;
+            text-decoration: line-through;
+            opacity: 0.8;
+            border: 1px solid rgba(0, 255, 100, 0.3);
+            box-shadow: 0 0 15px rgba(0, 255, 100, 0.15), inset 0 0 10px rgba(0, 255, 100, 0.08);
+        }
+
+        footer {
+            background: rgba(10, 14, 39, 0.6);
+            padding: 25px;
+            text-align: center;
+            color: #a0b0c0;
+            border-top: 2px solid rgba(0, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                border-radius: 0;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            nav {
+                flex-direction: column;
+            }
+
+            nav button {
+                width: 100%;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔒 Cybersecurity Beginner's Guide</h1>
+            <p>Learn the fundamentals of protecting yourself and your data online</p>
+        </header>
+
+        <nav>
+            <button class="nav-btn active" data-section="overview">Overview</button>
+            <button class="nav-btn" data-section="cia-triad">CIA Triad</button>
+            <button class="nav-btn" data-section="threats">Common Threats</button>
+            <button class="nav-btn" data-section="passwords">Password Security</button>
+            <button class="nav-btn" data-section="best-practices">Best Practices</button>
+            <button class="nav-btn" data-section="resources">Resources</button>
+        </nav>
+
+        <div class="content">
+            <!-- Overview Section -->
+            <div id="overview" class="section active">
+                <h2>What is Cybersecurity?</h2>
+                <p>Cybersecurity is the practice of protecting computers, networks, servers, mobile devices, electronic systems, and data from malicious attacks and unauthorized access. It involves implementing technologies, processes, and controls to safeguard information and ensure business continuity.</p>
+
+                <h3>Why is Cybersecurity Important?</h3>
+                <p>In today's digital age, cyber threats are more prevalent than ever. Hackers and malicious actors continuously develop new techniques to compromise systems and steal sensitive information. Organizations and individuals must understand the importance of cybersecurity to protect themselves from:</p>
+                <ul>
+                    <li><strong>Data theft</strong> - Loss of personal and financial information</li>
+                    <li><strong>Financial loss</strong> - Direct costs from attacks and recovery</li>
+                    <li><strong>Reputational damage</strong> - Loss of trust and credibility</li>
+                    <li><strong>System downtime</strong> - Interruption of critical services</li>
+                    <li><strong>Legal consequences</strong> - Regulatory fines and compliance violations</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h4>📊 Key Statistics</h4>
+                    <p>According to 2024 cybersecurity reports, organizations face increasing threats daily. The average cost of a data breach exceeds millions of dollars, making cybersecurity investment crucial for any entity handling sensitive information.</p>
+                </div>
+
+                <h3>Core Cybersecurity Goals</h3>
+                <p>The primary objectives of cybersecurity are:</p>
+                <ol>
+                    <li><strong>Identify and fix security vulnerabilities</strong> before they can be exploited</li>
+                    <li><strong>Prevent unauthorized access</strong> to systems and data</li>
+                    <li><strong>Detect intrusions and attacks</strong> quickly</li>
+                    <li><strong>Respond to security incidents</strong> promptly</li>
+                    <li><strong>Recover and rebuild</strong> security defenses after incidents</li>
+                </ol>
+
+                <div class="button-group">
+                    <button class="btn" onclick="openModal('overview-modal')">Learn More About Cybersecurity</button>
+                    <button class="btn btn-secondary" onclick="document.querySelector('[data-section=cia-triad]').click()">Next: CIA Triad</button>
+                </div>
+            </div>
+
+            <!-- CIA Triad Section -->
+            <div id="cia-triad" class="section">
+                <h2>The CIA Triad: Foundation of Cybersecurity</h2>
+                <p>The CIA Triad is a fundamental model in cybersecurity that represents three core principles essential for information security. Understanding these principles is crucial for building effective security strategies.</p>
+
+                <div class="grid">
+                    <div class="info-card">
+                        <h4>🔐 Confidentiality</h4>
+                        <p><strong>Definition:</strong> Ensuring that information is accessible only to authorized individuals and not disclosed to unauthorized parties.</p>
+                        <p><strong>How to achieve:</strong></p>
+                        <ul style="margin-left: 15px;">
+                            <li>Encryption of sensitive data</li>
+                            <li>Access control mechanisms</li>
+                            <li>Authentication systems</li>
+                            <li>Data classification</li>
+                        </ul>
+                        <p><strong>Example:</strong> Encrypting your password so only you can access your email account.</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h4>✅ Integrity</h4>
+                        <p><strong>Definition:</strong> Ensuring that data remains accurate, complete, and unaltered except by authorized individuals or processes.</p>
+                        <p><strong>How to achieve:</strong></p>
+                        <ul style="margin-left: 15px;">
+                            <li>Checksums and hash values</li>
+                            <li>Digital signatures</li>
+                            <li>Access controls</li>
+                            <li>Audit logs</li>
+                        </ul>
+                        <p><strong>Example:</strong> Verifying that a file hasn't been modified during transmission.</p>
+                    </div>
+
+                    <div class="info-card">
+                        <h4>⚙️ Availability</h4>
+                        <p><strong>Definition:</strong> Ensuring that authorized users can access information and resources when needed, without disruption.</p>
+                        <p><strong>How to achieve:</strong></p>
+                        <ul style="margin-left: 15px;">
+                            <li>Redundancy and backups</li>
+                            <li>DDoS protection</li>
+                            <li>System maintenance</li>
+                            <li>Disaster recovery planning</li>
+                        </ul>
+                        <p><strong>Example:</strong> Ensuring a website remains accessible even during traffic spikes.</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>💡 Key Insight</h4>
+                    <p>All three elements of the CIA Triad must work together. Compromising one element weakens overall security. For instance, a system might be highly confidential, but if it's not available when needed, it fails to protect critical information effectively.</p>
+                </div>
+
+                <h3>CIA Triad in Real-World Scenarios</h3>
+                <table class="table">
+                    <tr>
+                        <th>Scenario</th>
+                        <th>Confidentiality Impact</th>
+                        <th>Integrity Impact</th>
+                        <th>Availability Impact</th>
+                    </tr>
+                    <tr>
+                        <td>Medical Records Breach</td>
+                        <td>Patient data exposed</td>
+                        <td>Records might be altered</td>
+                        <td>System may go offline</td>
+                    </tr>
+                    <tr>
+                        <td>Database Corruption</td>
+                        <td>Data potentially visible</td>
+                        <td>Data accuracy compromised</td>
+                        <td>Services become unavailable</td>
+                    </tr>
+                    <tr>
+                        <td>Server DDoS Attack</td>
+                        <td>No direct impact</td>
+                        <td>No direct impact</td>
+                        <td>Services inaccessible</td>
+                    </tr>
+                </table>
+
+                <div class="button-group">
+                    <button class="btn" onclick="openModal('cia-modal')">Deep Dive: CIA Triad</button>
+                    <button class="btn btn-secondary" onclick="document.querySelector('[data-section=threats]').click()">Next: Common Threats</button>
+                </div>
+            </div>
+
+            <!-- Common Threats Section -->
+            <div id="threats" class="section">
+                <h2>Common Cyber Threats</h2>
+                <p>Understanding the most prevalent cyber threats is essential for developing effective defense strategies. Below are the most common attack vectors that both individuals and organizations face today.</p>
+
+                <h3>🎣 Phishing</h3>
+                <div class="info-card">
+                    <p><strong>Definition:</strong> Phishing is a social engineering attack where attackers impersonate legitimate entities (banks, companies, organizations) to trick users into revealing sensitive information.</p>
+                    <p><strong>How it works:</strong></p>
+                    <ul>
+                        <li>Fraudulent emails that mimic trusted sources</li>
+                        <li>Fake websites that look identical to legitimate ones</li>
+                        <li>SMS messages (smishing) or phone calls (vishing)</li>
+                        <li>Often creates urgency to bypass critical thinking</li>
+                    </ul>
+                    <p><strong>Prevention:</strong> Verify email senders, check URLs before clicking, enable multi-factor authentication, report suspicious emails.</p>
+                </div>
+
+                <h3>🦠 Malware</h3>
+                <div class="info-card">
+                    <p><strong>Definition:</strong> Malicious software designed to harm, exploit, or compromise your computer or network.</p>
+                    <p><strong>Types of malware:</strong></p>
+                    <ul>
+                        <li><strong>Viruses:</strong> Attach to files and spread when shared</li>
+                        <li><strong>Worms:</strong> Self-replicate and spread through networks</li>
+                        <li><strong>Trojans:</strong> Disguise as legitimate software</li>
+                        <li><strong>Spyware:</strong> Secretly monitors user activity</li>
+                        <li><strong>Adware:</strong> Displays unwanted advertisements</li>
+                    </ul>
+                    <p><strong>Prevention:</strong> Use antivirus software, keep systems updated, avoid downloading from untrusted sources, use firewalls.</p>
+                </div>
+
+                <h3>🔐 Ransomware</h3>
+                <div class="info-card">
+                    <p><strong>Definition:</strong> Malware that encrypts your files or locks your system, with attackers demanding payment (ransom) for decryption.</p>
+                    <p><strong>Characteristics:</strong></p>
+                    <ul>
+                        <li>Often spreads through phishing emails or malicious downloads</li>
+                        <li>Encrypts critical data, making it inaccessible</li>
+                        <li>Demands payment in cryptocurrency</li>
+                        <li>Can cause significant financial and operational damage</li>
+                    </ul>
+                    <p><strong>Prevention:</strong> Regular backups, employee training, security awareness, up-to-date systems, incident response plan.</p>
+                </div>
+
+                <h3>🔌 Man-in-the-Middle (MitM) Attacks</h3>
+                <div class="info-card">
+                    <p><strong>Definition:</strong> An attacker intercepts and potentially alters communications between two parties without their knowledge.</p>
+                    <p><strong>Common scenarios:</strong></p>
+                    <ul>
+                        <li>Intercepting data on unsecured Wi-Fi networks</li>
+                        <li>Eavesdropping on email or messaging communications</li>
+                        <li>Stealing credentials or financial information</li>
+                        <li>Injecting malicious code into communications</li>
+                    </ul>
+                    <p><strong>Prevention:</strong> Use VPNs on public networks, enable HTTPS, use encrypted messaging, disable auto-connect to Wi-Fi.</p>
+                </div>
+
+                <h3>⚡ DDoS (Distributed Denial of Service)</h3>
+                <div class="info-card">
+                    <p><strong>Definition:</strong> An attack that floods a website or server with overwhelming traffic, making it inaccessible to legitimate users.</p>
+                    <p><strong>Impact:</strong></p>
+                    <ul>
+                        <li>Website and services go offline</li>
+                        <li>Business loses revenue and productivity</li>
+                        <li>Reputation damage</li>
+                        <li>Potential data theft during the attack</li>
+                    </ul>
+                    <p><strong>Prevention:</strong> Use DDoS protection services, implement rate limiting, use firewalls and intrusion detection systems.</p>
+                </div>
+
+                <h3>🔓 Weak Passwords</h3>
+                <div class="warning-box">
+                    <p><strong>Why it's dangerous:</strong> Weak passwords are one of the easiest ways for attackers to gain unauthorized access. Many breaches succeed because of simple, predictable passwords.</p>
+                    <p><strong>Common weak passwords:</strong> 123456, password, qwerty, admin, letmein, your birthday, pet names, etc.</p>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn" onclick="openModal('threats-modal')">Threat Response Guide</button>
+                    <button class="btn btn-secondary" onclick="document.querySelector('[data-section=passwords]').click()">Next: Password Security</button>
+                </div>
+            </div>
+
+            <!-- Password Security Section -->
+            <div id="passwords" class="section">
+                <h2>🔑 Password Security Best Practices</h2>
+                <p>Your passwords are often the first line of defense against unauthorized access. Creating and maintaining strong, unique passwords is crucial for protecting your accounts and personal information.</p>
+
+                <h3>Creating Strong Passwords</h3>
+                <div class="highlight-box">
+                    <h4>Password Requirements for Maximum Security:</h4>
+                    <ul>
+                        <li><strong>Minimum 16 characters</strong> (longer is better)</li>
+                        <li><strong>Mix of character types:</strong> uppercase, lowercase, numbers, symbols</li>
+                        <li><strong>Avoid predictable patterns:</strong> no birthdays, names, or sequential numbers</li>
+                        <li><strong>No dictionary words</strong> or common phrases</li>
+                        <li><strong>Unique for each account</strong> - never reuse passwords</li>
+                    </ul>
+                </div>
+
+                <h3>Examples of Strong vs Weak Passwords</h3>
+                <table class="table">
+                    <tr>
+                        <th style="background-color: #dc3545;">❌ Weak Password</th>
+                        <th style="background-color: #28a745;">✅ Strong Password</th>
+                    </tr>
+                    <tr>
+                        <td>password123</td>
+                        <td>Tr0p!calSunset$Blue#2024</td>
+                    </tr>
+                    <tr>
+                        <td>JohnDoe1990</td>
+                        <td>QuicK*Fox@Jumps#Over7Moons</td>
+                    </tr>
+                    <tr>
+                        <td>admin</td>
+                        <td>M@rbl3$tOne#Sk1es&Crystal9</td>
+                    </tr>
+                    <tr>
+                        <td>letmein</td>
+                        <td>Phoenix*Rise$From%Ashes2024!</td>
+                    </tr>
+                    <tr>
+                        <td>qwerty12345</td>
+                        <td>SecureP@ssw0rd*Unicorn#Rainbow99</td>
+                    </tr>
+                </table>
+
+                <h3>Multi-Factor Authentication (MFA)</h3>
+                <div class="success-box">
+                    <h4>Why MFA is Essential:</h4>
+                    <p><strong>Multi-Factor Authentication</strong> adds an extra layer of security by requiring two or more verification steps. Even if attackers steal your password, they cannot access your account without the second factor.</p>
+                    <p><strong>Types of second factors:</strong></p>
+                    <ul>
+                        <li><strong>Authenticator apps:</strong> Google Authenticator, Microsoft Authenticator, Authy</li>
+                        <li><strong>SMS codes:</strong> One-time codes sent to your phone</li>
+                        <li><strong>Email verification:</strong> Confirmation links sent to your email</li>
+                        <li><strong>Biometric:</strong> Fingerprint or facial recognition</li>
+                        <li><strong>Security keys:</strong> Physical USB devices (most secure)</li>
+                    </ul>
+                </div>
+
+                <h3>Password Manager Recommendations</h3>
+                <div class="info-card">
+                    <p><strong>Why use a password manager?</strong></p>
+                    <ul>
+                        <li>Generates complex, random passwords automatically</li>
+                        <li>Securely stores passwords in encrypted vaults</li>
+                        <li>Auto-fills login credentials</li>
+                        <li>Helps you maintain unique passwords for each account</li>
+                        <li>Accessible across devices</li>
+                    </ul>
+                    <p><strong>Popular password managers:</strong> 1Password, Bitwarden, LastPass, KeePass</p>
+                </div>
+
+                <h3>Password Security Checklist</h3>
+                <ul class="checklist">
+                    <li onclick="this.classList.toggle('completed')">✓ Create passwords with at least 16 characters</li>
+                    <li onclick="this.classList.toggle('completed')">✓ Include uppercase, lowercase, numbers, and symbols</li>
+                    <li onclick="this.classList.toggle('completed')">✓ Use unique passwords for each account</li>
+                    <li onclick="this.classList.toggle('completed')">✓ Enable Multi-Factor Authentication (MFA) on all important accounts</li>
+                    <li onclick="this.classList.toggle('completed')">✓ Use a password manager to store passwords securely</li>
+                    <li onclick="this.classList.toggle('completed')">✓ Never share your passwords with anyone</li>
+                    <li onclick="this.classList.toggle('completed')">✓ Change passwords regularly (at least quarterly)</li>
+                    <li onclick="this.classList.toggle('completed')">✓ Never use your password on public computers</li>
+                    <li onclick="this.classList.toggle('completed')">✓ Check if your account has been compromised using haveibeenpwned.com</li>
+                </ul>
+
+                <div class="button-group">
+                    <button class="btn" onclick="generatePassword()">Generate Strong Password</button>
+                    <button class="btn btn-secondary" onclick="document.querySelector('[data-section=best-practices]').click()">Next: Best Practices</button>
+                </div>
+            </div>
+
+            <!-- Best Practices Section -->
+            <div id="best-practices" class="section">
+                <h2>🛡️ Cybersecurity Best Practices</h2>
+                <p>Implementing these best practices will significantly reduce your risk of falling victim to cyber attacks and help protect your personal and professional information.</p>
+
+                <h3>1. Keep Software Updated</h3>
+                <div class="info-card">
+                    <p><strong>Why it matters:</strong> Software updates often include security patches that fix known vulnerabilities. Hackers actively exploit unpatched systems.</p>
+                    <ul>
+                        <li>Enable automatic updates for your operating system</li>
+                        <li>Regularly update applications and plugins</li>
+                        <li>Update your browser and extensions</li>
+                        <li>Keep antivirus software current</li>
+                    </ul>
+                </div>
+
+                <h3>2. Use Antivirus and Anti-Malware Software</h3>
+                <div class="info-card">
+                    <p><strong>Protection against:</strong></p>
+                    <ul>
+                        <li>Viruses and worms</li>
+                        <li>Trojan horses and backdoors</li>
+                        <li>Spyware and keyloggers</li>
+                        <li>Ransomware and cryptolockers</li>
+                    </ul>
+                    <p><strong>Best practices:</strong> Use reputable antivirus software, keep it updated, run regular scans, enable real-time protection.</p>
+                </div>
+
+                <h3>3. Enable Firewall Protection</h3>
+                <div class="info-card">
+                    <p><strong>What firewalls do:</strong></p>
+                    <ul>
+                        <li>Monitor incoming and outgoing network traffic</li>
+                        <li>Block unauthorized access attempts</li>
+                        <li>Filter malicious content</li>
+                        <li>Act as the first line of defense for your network</li>
+                    </ul>
+                    <p><strong>Action:</strong> Enable the Windows Firewall (Windows) or similar firewall on your system.</p>
+                </div>
+
+                <h3>4. Practice Safe Browsing</h3>
+                <div class="info-card">
+                    <ul>
+                        <li>Check for HTTPS in website URLs (padlock icon)</li>
+                        <li>Avoid clicking links in suspicious emails</li>
+                        <li>Don't download files from untrusted sources</li>
+                        <li>Be cautious on public Wi-Fi networks</li>
+                        <li>Use browser security extensions</li>
+                        <li>Clear cookies and browsing history regularly</li>
+                    </ul>
+                </div>
+
+                <h3>5. Secure Your Home Network</h3>
+                <div class="info-card">
+                    <ul>
+                        <li>Change default router username and password</li>
+                        <li>Use WPA3 encryption (or WPA2 if WPA3 unavailable)</li>
+                        <li>Disable WPS (Wi-Fi Protected Setup)</li>
+                        <li>Hide SSID broadcast (optional additional security)</li>
+                        <li>Keep router firmware updated</li>
+                        <li>Use a separate guest network for visitors</li>
+                    </ul>
+                </div>
+
+                <h3>6. Backup Your Data Regularly</h3>
+                <div class="success-box">
+                    <p><strong>Why backups are critical:</strong> If you fall victim to ransomware or data loss, regular backups ensure you can restore your files without paying attackers.</p>
+                    <ul>
+                        <li>Use the 3-2-1 backup rule: 3 copies, 2 different media, 1 offsite</li>
+                        <li>Use external hard drives or cloud storage</li>
+                        <li>Schedule automatic daily or weekly backups</li>
+                        <li>Test restores to ensure backups work</li>
+                        <li>Keep backups offline and encrypted</li>
+                    </ul>
+                </div>
+
+                <h3>7. Be Cautious with Email and Attachments</h3>
+                <div class="warning-box">
+                    <ul>
+                        <li>Never open attachments from unknown senders</li>
+                        <li>Verify sender email addresses carefully (look for spoofed addresses)</li>
+                        <li>Hover over links before clicking to see the actual URL</li>
+                        <li>Be wary of urgent requests for passwords or personal information</li>
+                        <li>Report phishing emails to your email provider</li>
+                    </ul>
+                </div>
+
+                <h3>8. Use a VPN on Public Networks</h3>
+                <div class="info-card">
+                    <p><strong>What VPNs do:</strong></p>
+                    <ul>
+                        <li>Encrypt all your internet traffic</li>
+                        <li>Hide your IP address and location</li>
+                        <li>Protect you from man-in-the-middle attacks</li>
+                        <li>Secure your data on public Wi-Fi</li>
+                    </ul>
+                    <p><strong>Recommendation:</strong> Use a reputable VPN service when connecting to public Wi-Fi networks.</p>
+                </div>
+
+                <h3>9. Education and Awareness</h3>
+                <div class="highlight-box">
+                    <p><strong>The human factor is often the weakest link:</strong></p>
+                    <ul>
+                        <li>Stay informed about current threats and attacks</li>
+                        <li>Attend security awareness training</li>
+                        <li>Learn to recognize social engineering attempts</li>
+                        <li>Share knowledge with family and colleagues</li>
+                        <li>Report suspicious activity immediately</li>
+                    </ul>
+                </div>
+
+                <h3>10. Have an Incident Response Plan</h3>
+                <div class="info-card">
+                    <p><strong>Know what to do if breached:</strong></p>
+                    <ul>
+                        <li>Isolate affected systems from the network</li>
+                        <li>Document everything that happened</li>
+                        <li>Change passwords on compromised accounts</li>
+                        <li>Contact relevant organizations (banks, credit agencies)</li>
+                        <li>Monitor accounts for unusual activity</li>
+                        <li>Consider consulting with security professionals</li>
+                    </ul>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn" onclick="openModal('checklist-modal')">Security Checklist</button>
+                    <button class="btn btn-secondary" onclick="document.querySelector('[data-section=resources]').click()">Next: Resources</button>
+                </div>
+            </div>
+
+            <!-- Resources Section -->
+            <div id="resources" class="section">
+                <h2>📚 Cybersecurity Resources and Tools</h2>
+                <p>Use these reliable resources to continue learning about cybersecurity and stay updated on the latest threats and solutions.</p>
+
+                <h3>Educational Resources</h3>
+                <div class="grid">
+                    <div class="info-card">
+                        <h4>🎓 Online Learning Platforms</h4>
+                        <ul>
+                            <li>SANS Cyber Academy</li>
+                            <li>Coursera Cybersecurity Courses</li>
+                            <li>edX Security Fundamentals</li>
+                            <li>TryHackMe - Interactive Labs</li>
+                            <li>HackTheBox - Penetration Testing</li>
+                            <li>Cybrary Free Courses</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h4>📖 Certification Programs</h4>
+                        <ul>
+                            <li>CompTIA Security+</li>
+                            <li>Certified Ethical Hacker (CEH)</li>
+                            <li>Certified Information Systems Security Professional (CISSP)</li>
+                            <li>Google Cybersecurity Certificate</li>
+                            <li>ISC2 CCNA Security</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Useful Security Tools</h3>
+                <table class="table">
+                    <tr>
+                        <th>Tool Category</th>
+                        <th>Examples</th>
+                        <th>Purpose</th>
+                    </tr>
+                    <tr>
+                        <td>Password Managers</td>
+                        <td>1Password, Bitwarden, LastPass</td>
+                        <td>Secure password storage and generation</td>
+                    </tr>
+                    <tr>
+                        <td>Antivirus Software</td>
+                        <td>Windows Defender, Norton, McAfee</td>
+                        <td>Malware detection and removal</td>
+                    </tr>
+                    <tr>
+                        <td>VPN Services</td>
+                        <td>ExpressVPN, NordVPN, ProtonVPN</td>
+                        <td>Secure browsing and data encryption</td>
+                    </tr>
+                    <tr>
+                        <td>Two-Factor Authentication</td>
+                        <td>Google Authenticator, Authy, Microsoft Authenticator</td>
+                        <td>Account security enhancement</td>
+                    </tr>
+                    <tr>
+                        <td>Network Tools</td>
+                        <td>Wireshark, Nmap, Zenmap</td>
+                        <td>Network scanning and analysis</td>
+                    </tr>
+                    <tr>
+                        <td>Breach Checkers</td>
+                        <td>HaveIBeenPwned, BreachDirectory</td>
+                        <td>Check if credentials have been compromised</td>
+                    </tr>
+                </table>
+
+                <h3>Stay Informed</h3>
+                <div class="info-card">
+                    <h4>Recommended News Sources and Communities</h4>
+                    <ul>
+                        <li><strong>KrebsOnSecurity:</strong> In-depth cybersecurity news and investigation</li>
+                        <li><strong>Dark Reading:</strong> Enterprise cybersecurity and threat intelligence</li>
+                        <li><strong>Security Affairs:</strong> Cybersecurity news and research</li>
+                        <li><strong>Reddit Communities:</strong> r/cybersecurity, r/netsec</li>
+                        <li><strong>Twitter/X Accounts:</strong> Follow security researchers and organizations</li>
+                        <li><strong>CISA Alerts:</strong> US Cybersecurity & Infrastructure Security Agency</li>
+                    </ul>
+                </div>
+
+                <h3>Real-World Security Websites</h3>
+                <div class="info-card">
+                    <ul>
+                        <li><strong>HaveIBeenPwned.com:</strong> Check if your email/passwords have been breached</li>
+                        <li><strong>OWASP.org:</strong> Open Web Application Security Project</li>
+                        <li><strong>NIST.gov:</strong> National Institute of Standards and Technology</li>
+                        <li><strong>CIS.org:</strong> Center for Internet Security</li>
+                        <li><strong>Shodan.io:</strong> Search engine for internet-connected devices</li>
+                    </ul>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn" onclick="openModal('resources-modal')">Additional Learning Materials</button>
+                    <button class="btn btn-success" onclick="alert('Great job! You\'ve completed the Cybersecurity Beginner\'s Guide. Start applying these principles to protect yourself online!')">Completion Certificate</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Cybersecurity Beginner's Guide | Last Updated: January 18, 2026</p>
+            <p>This guide is for educational purposes. Always practice responsible security habits and consult professionals for specific security needs.</p>
+        </footer>
+    </div>
+
+    <!-- Modals -->
+    <div id="overview-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>What is Cybersecurity?</h3>
+                <button class="close-btn" onclick="closeModal('overview-modal')">×</button>
+            </div>
+            <p>Cybersecurity encompasses all practices, technologies, and processes designed to protect digital assets, information, and systems from malicious attacks.</p>
+            <h4>Key Areas of Cybersecurity:</h4>
+            <ul>
+                <li><strong>Network Security:</strong> Protecting network infrastructure and communications</li>
+                <li><strong>Application Security:</strong> Securing software and applications against vulnerabilities</li>
+                <li><strong>Information Security:</strong> Protecting data at rest and in transit</li>
+                <li><strong>Incident Response:</strong> Responding to and recovering from security breaches</li>
+                <li><strong>Security Awareness:</strong> Training users to recognize and avoid threats</li>
+                <li><strong>Compliance:</strong> Adhering to regulations and standards like GDPR, HIPAA</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="cia-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Deep Dive: CIA Triad</h3>
+                <button class="close-btn" onclick="closeModal('cia-modal')">×</button>
+            </div>
+            <p>The CIA Triad forms the basis of all security policies and frameworks. Understanding how to balance these three principles is critical for effective security:</p>
+            <h4>Confidentiality in Action:</h4>
+            <p>Medical institutions use encryption and access controls to ensure patient health records are only accessible to authorized healthcare providers, maintaining patient privacy.</p>
+            <h4>Integrity in Action:</h4>
+            <p>Financial institutions use digital signatures and hash verification to ensure that transaction records cannot be altered without detection, protecting against fraudulent modifications.</p>
+            <h4>Availability in Action:</h4>
+            <p>Cloud providers use redundant servers, load balancing, and DDoS protection to ensure services remain available 24/7, even during traffic spikes or attacks.</p>
+        </div>
+    </div>
+
+    <div id="threats-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Threat Response Guide</h3>
+                <button class="close-btn" onclick="closeModal('threats-modal')">×</button>
+            </div>
+            <h4>If You Suspect a Breach:</h4>
+            <ol>
+                <li>Change your password immediately from a secure device</li>
+                <li>Enable two-factor authentication if available</li>
+                <li>Monitor your accounts for suspicious activity</li>
+                <li>Check your credit reports for unauthorized activity</li>
+                <li>Consider placing a fraud alert or credit freeze</li>
+                <li>Report to relevant authorities (FBI IC3, local police)</li>
+            </ol>
+            <h4>If Your Device is Infected:</h4>
+            <ol>
+                <li>Disconnect from the internet immediately</li>
+                <li>Run a full system antivirus scan in Safe Mode</li>
+                <li>Backup important files if possible</li>
+                <li>Consult with a security professional</li>
+                <li>Consider professional data recovery services</li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="checklist-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Personal Security Checklist</h3>
+                <button class="close-btn" onclick="closeModal('checklist-modal')">×</button>
+            </div>
+            <h4>Immediate Actions (This Week):</h4>
+            <ul class="checklist">
+                <li onclick="this.classList.toggle('completed')">Change passwords for important accounts</li>
+                <li onclick="this.classList.toggle('completed')">Enable two-factor authentication</li>
+                <li onclick="this.classList.toggle('completed')">Update all software and operating systems</li>
+                <li onclick="this.classList.toggle('completed')">Run a full antivirus scan</li>
+                <li onclick="this.classList.toggle('completed')">Check haveibeenpwned.com for breaches</li>
+            </ul>
+            <h4>Short-term Actions (This Month):</h4>
+            <ul class="checklist">
+                <li onclick="this.classList.toggle('completed')">Set up automated backups</li>
+                <li onclick="this.classList.toggle('completed')">Review router security settings</li>
+                <li onclick="this.classList.toggle('completed')">Set up a password manager</li>
+                <li onclick="this.classList.toggle('completed')">Review social media privacy settings</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="resources-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Additional Learning Materials</h3>
+                <button class="close-btn" onclick="closeModal('resources-modal')">×</button>
+            </div>
+            <h4>Video Tutorials:</h4>
+            <ul>
+                <li>YouTube channels: Linus Tech Tips Security, NetworkChuck, John Hammond</li>
+                <li>Udacity Cybersecurity Nanodegree</li>
+                <li>Cybrary free video courses</li>
+            </ul>
+            <h4>Books to Read:</h4>
+            <ul>
+                <li>"The Cybersecurity Handbook" - NCSA</li>
+                <li>"Secrets & Lies" - Bruce Schneier</li>
+                <li>"The Web Application Hacker's Handbook"</li>
+                <li>"Social Engineering" - Christopher Hadnagy</li>
+            </ul>
+            <h4>Practice Platforms:</h4>
+            <ul>
+                <li>TryHackMe.com - Guided cybersecurity training</li>
+                <li>HackTheBox.com - Penetration testing practice</li>
+                <li>OverTheWire.org - Wargames and challenges</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const sectionId = this.getAttribute('data-section');
+                
+                // Remove active class from all buttons and sections
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding section
+                this.classList.add('active');
+                document.getElementById(sectionId).classList.add('active');
+                
+                // Scroll to top
+                document.querySelector('.content').scrollTop = 0;
+            });
+        });
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        });
+
+        // Password generator function
+        function generatePassword() {
+            const length = 16;
+            const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const lowercase = 'abcdefghijklmnopqrstuvwxyz';
+            const numbers = '0123456789';
+            const symbols = '!@#$%^&*()_+-=[]{}|;:,.<>?';
+            const all = uppercase + lowercase + numbers + symbols;
+
+            let password = '';
+            password += uppercase[Math.floor(Math.random() * uppercase.length)];
+            password += lowercase[Math.floor(Math.random() * lowercase.length)];
+            password += numbers[Math.floor(Math.random() * numbers.length)];
+            password += symbols[Math.floor(Math.random() * symbols.length)];
+
+            for (let i = password.length; i < length; i++) {
+                password += all[Math.floor(Math.random() * all.length)];
+            }
+
+            password = password.split('').sort(() => 0.5 - Math.random()).join('');
+
+            alert('Generated Strong Password:\n\n' + password + '\n\nCopy and use this password securely!\n(Never share your passwords)');
+        }
+    </script>
+</body>
+</html>
